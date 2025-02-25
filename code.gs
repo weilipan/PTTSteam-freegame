@@ -2,7 +2,7 @@ function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu("PTT Steam 限免遊戲查詢")
     .addItem("📄 建立空白表格", "initializeSheet")
-    .addItem(✉️ 設定 Email", "setEmail")
+    .addItem("✉️ 設定 Email", "setEmail")
     .addItem("🔄 設定 maxPages", "setMaxPages")
     .addItem("🔍 查詢並寄送相關資訊", "checkPTTSteamFreeGames")
     .addToUi();
@@ -179,8 +179,17 @@ function checkPTTSteamFreeGames() {
       body: body
     });
 
-    SpreadsheetApp.getUi().alert("查詢完成，已發送 Email 通知！");
-  } else {
-    SpreadsheetApp.getUi().alert("未找到新的 [限免] 遊戲。");
+  try {
+      SpreadsheetApp.getUi().alert("查詢完成，已發送 Email 通知！");
+    } catch (e) {
+      Logger.log("✅ 查詢完成，已發送 Email 通知！（未開啟 Google Sheet，無法顯示 alert）");
+    }
+  } 
+  else {
+    try {
+      SpreadsheetApp.getUi().alert("未找到新的 [限免] 遊戲。");
+    } catch (e) {
+      Logger.log("⚠️ 未找到新的 [限免] 遊戲。（未開啟 Google Sheet，無法顯示 alert）");
+    }
   }
 }
